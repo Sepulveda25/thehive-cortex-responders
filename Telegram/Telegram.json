@@ -1,0 +1,27 @@
+{
+  "name": "Telegram",
+  "version": "1.0",
+  "author": "CERT-BDF",
+  "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+  "license": "AGPL-V3",
+  "description": "Send an Telegram with information from a TheHive case or alert",
+  "dataTypeList": ["thehive:case", "thehive:alert"],
+  "command": "Telegram/telegram.py",
+  "baseConfig": "Telegram",
+  "configurationItems": [
+    {
+      "name": "User",
+      "description": "User Telegram",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "Token_Telegram",
+      "description": "Token_Telegram",
+      "type": "string",
+      "multi": false,
+      "required": true
+    }
+  ]
+}

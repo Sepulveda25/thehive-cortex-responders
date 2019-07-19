@@ -1,0 +1,22 @@
+{
+  "name": "slackNotificacion",
+  "version": "1.0",
+  "author": "CERT-BDF",
+  "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+  "license": "AGPL-V3",
+  "description": "Send an slack message with information from a TheHive case or alert",
+  "dataTypeList": ["thehive:case", "thehive:alert"],
+  "command": "slackNotificacion/slackNotificacion.py",
+  "baseConfig": "slackNotificacion",
+  "configurationItems": [
+    {
+      "name": "slack_webhook",
+      "description": "slack_webhook",
+      "type": "string",
+      "multi": false,
+      "required": true,
+      "defaultValue": "https://hooks.slack.com/services/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"
+    }
+  ]
+}
+

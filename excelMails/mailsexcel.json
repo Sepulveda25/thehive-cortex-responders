@@ -1,0 +1,37 @@
+{
+  "name": "MailsExcel",
+  "version": "1.0",
+  "author": "CERT-BDF",
+  "url": "https://github.com/TheHive-Project/Cortex-Analyzers",
+  "license": "AGPL-V3",
+  "description": "Send an email with information from a TheHive case or alert",
+  "dataTypeList": ["thehive:case", "thehive:alert"],
+  "command": "excelMails/mailsexcel.py",
+  "baseConfig": "MailsExcel",
+  "configurationItems": [
+    {
+      "name": "from",
+      "description": "email address from which the mail is send",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "smtp_host",
+      "description": "SMTP server used to send mail",
+      "type": "string",
+      "multi": false,
+      "required": true,
+      "defaultValue": "medusa.psi.unc.edu.ar"
+    },
+    {
+      "name": "smtp_port",
+      "description": "SMTP server port",
+      "type": "number",
+      "multi": false,
+      "required": true,
+      "defaultValue": 25
+    }
+  ]
+}
+
