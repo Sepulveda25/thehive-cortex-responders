@@ -5,5 +5,6 @@ Los responders se encuentran en el directorio:
 
 Para mas informacion ver:
 -------------------------
-*Documentacion Cortex 
- *https://github.com/TheHive-Project/CortexDocs
+Documentacion Cortex 
+
+-https://github.com/TheHive-Project/CortexDocs
