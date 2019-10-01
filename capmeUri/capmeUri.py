@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # encoding: utf-8
 # Este responder se encarga de generar un link para hacer un consulta a capme le pasa los parametros que son obtenidos 
 # desde los observables que son:
