@@ -11,11 +11,17 @@
   "configurationItems": [
     {
       "name": "server_capme_ip",
-      "description": "server_capme",
+      "description": "URL del servidor con capMe",
       "type": "string",
       "multi": false,
-      "required": true,
-      "defaultValue": "https://172.16.81.50/capme/?"
+      "required": true
+    },
+    {
+      "name": "dir_pcap",
+      "description": "Es el path al directorio donde se de van a guardar los pcaps. DEBE EXISTIR",
+      "type": "string",
+      "multi": false,
+      "required": true
     }
   ]
 }
