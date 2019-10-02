@@ -11,10 +11,10 @@
 
 from cortexutils.responder import Responder
 import requests
+import pytz
 from datetime import datetime, timezone
 import time
 import dateutil.parser as dp
-import pytz
 import socket
 import binascii
 import json
@@ -24,11 +24,12 @@ import re
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
+        
 class capmeUri(Responder):
     def __init__(self):
         Responder.__init__(self)
-        self.server_capme_ip = self.get_param('config.server_capme_ip', None, "IP missing")
-
+        self.server_capme_ip = self.get_param('config.server_capme_ip', None, "IP missing")# por ejemplo https://172.0.81.0 
+        self.dir_pcap = self.get_param('config.dir_pcap', None, "PATH missing")# por ejemplo /home/usuario/pcap
     def run(self):
         Responder.run(self)
 
@@ -56,15 +57,6 @@ class capmeUri(Responder):
         start_time = timestamp_datetime_object.timestamp() - 3600
         end_time = timestamp_datetime_object.timestamp() + 3600
 
-        cameUrl = 'https://172.16.81.50/capme/?sip={sip}&dip={dip}&spt={spt}&dpt={dpt}&stime={stime}&etime={etime}&filename=squert'.format(
-                sip=source_ip,
-                dip=destination_ip,
-                spt=source_port,
-                dpt=destination_port, 
-                stime=int(start_time), 
-                etime=int(end_time)
-                )
-    	
         #se convierten las variables a ascii 
         source_ip_hex=source_ip.encode('utf-8').hex()
         destination_ip_hex=destination_ip.encode('utf-8').hex()
@@ -73,6 +65,7 @@ class capmeUri(Responder):
         maxtx='500000'.encode('utf-8').hex()
         sidsrc='event'.encode('utf-8').hex()        
         xscript='auto'.encode('utf-8').hex()
+
         #CONCATENAR VARIABLES
         urArgs = 'd={sip}-{spt}-{dip}-{dpt}-{st}-{et}-{maxtx}-{sidsrc}-{xscript}'.format(
                 sip=source_ip_hex,
@@ -85,23 +78,33 @@ class capmeUri(Responder):
                 sidsrc=sidsrc,
                 xscript=xscript
                 )
-        callbackLink='https://172.16.81.50/capme/.inc/callback.php?{urArgs}'.format(urArgs=urArgs)
         
+        callbackLink='{url}/capme/.inc/callback.php?{urArgs}'.format(urArgs=urArgs,url=self.server_capme_ip)
         
         #Usuario y pass para ingresar al sitio de securitionion
         ck = {'httpd_username': 'sonion', 'httpd_password': 'sonion'}
         session = requests.Session()
+
         #Se conecta a capme para generar el pcap y obtener el link para descargarlo
         r = session.post(callbackLink,data=ck, verify=False)
         result = r.text
         resultJSON=json.loads(result) 
-        
+
+        #Se obtine el campo tx del json devuelto el link
         resultTX=''.join(resultJSON['tx'])#Si tx=0 es que hubo un error
+        if not resultTX:
+             self.report({'message': "Campo tx del link esta vacio. No se encuentra el pcap"})
+             exit(1)
+
         #Se busca el href 
         match = re.search(r'href=[\'"]?([^\'" >]+)', resultTX)
-        pcapLink='https://172.16.81.50{href}'.format(href= match.group(1))
-        path='/home/thehive/responder-output/{fileName}'.format(fileName=match.group(1).split("/")[3])
-        #respuesta = session.post(callbackLink,data=ck, verify=False)
+        href= match.group(1)
+
+        #Se arma el link con href para descargar el pcap
+        pcapLink='{url}{href}'.format(href= href,url=self.server_capme_ip)
+
+        #Se arma el path para guardar el nombre
+        path='{directory}/{fileName}'.format(fileName=href.split("/")[3],directory=self.dir_pcap)
         r = session.post(pcapLink,data=ck, verify=False)
         with open(path, 'wb') as f:
             f.write(r.content)
@@ -110,10 +113,6 @@ class capmeUri(Responder):
         self.report({'message': path})
         r.close()
         session.close()
-        # if r.status_code == 200 :
-        # else:
-        #     self.error('Failed to send message.')
-        # self.report({'message': 'message sent'})
         
     def operations(self, raw):
         return [self.build_operation('AddTagToCase', tag='message sent')]
@@ -142,7 +141,7 @@ def chkPort(self,port):
     except ValueError:
         #self.report({'message': 'hay simbolos'})
         return False 
-    
+
         
 if __name__ == '__main__':
     capmeUri().run()
