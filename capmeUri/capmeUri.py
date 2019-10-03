@@ -30,6 +30,12 @@ class capmeUri(Responder):
         Responder.__init__(self)
         self.server_capme_ip = self.get_param('config.server_capme_ip', None, "IP missing")# por ejemplo https://172.0.81.0 
         self.dir_pcap = self.get_param('config.dir_pcap', None, "PATH missing")# por ejemplo /home/usuario/pcap
+        #Se obtiene el nombre del observable para cada campo
+        self.sourceIP = self.get_param('config.sourceIP', None, "source IP missing")
+        self.destinationIP = self.get_param('config.destinationIP', None, "destination IP missing")
+        self.sourcePort = self.get_param('config.sourcePort', None, "source port missing")
+        self.destinationPort = self.get_param('config.destinationPort', None, "destination port missing")
+        self.timeStamp = self.get_param('config.timeStamp', None, "timestamp missing")
     def run(self):
         Responder.run(self)
 
@@ -37,13 +43,13 @@ class capmeUri(Responder):
         title = self.get_param('data.title', None, 'title not found in observables')
     	#Se obtienen las IPs origen y destino del bloque data.artifacts
         artifacts = self.get_param('data.artifacts', None, 'artifacts not found in observables')
-    	
-    	
-        source_ip = ''.join([a['data'] for a in artifacts if a.get('dataType') == 'source_ip' and 'data' in a])
-        destination_ip = ''.join([a['data'] for a in artifacts if a.get('dataType') == 'destination_ip' and 'data' in a])
-        source_port = ''.join([a['data'] for a in artifacts if a.get('dataType') == 'source_port' and 'data' in a])
-        destination_port = ''.join([a['data'] for a in artifacts if a.get('dataType') == 'destination_port' and 'data' in a])
-        timestamp = ''.join([a['data'] for a in artifacts if a.get('dataType') == 'timestamp' and 'data' in a])
+
+		#Se buscan los observables de la alerta  
+        source_ip = ''.join([a['data'] for a in artifacts if a.get('dataType') == self.sourceIP and 'data' in a])
+        destination_ip = ''.join([a['data'] for a in artifacts if a.get('dataType') == self.destinationIP and 'data' in a])
+        source_port = ''.join([a['data'] for a in artifacts if a.get('dataType') == self.sourcePort and 'data' in a])
+        destination_port = ''.join([a['data'] for a in artifacts if a.get('dataType') == self.destinationPort and 'data' in a])
+        timestamp = ''.join([a['data'] for a in artifacts if a.get('dataType') == self.timeStamp and 'data' in a])
 
       
         # Validacion de IP y Puerto
@@ -93,7 +99,7 @@ class capmeUri(Responder):
         #Se obtine el campo tx del json devuelto el link
         resultTX=''.join(resultJSON['tx'])#Si tx=0 es que hubo un error
         if not resultTX:
-             self.report({'message': "Campo tx del link esta vacio. No se encuentra el pcap"})
+             self.report({'message': "Campo tx de JSON esta vacio. No se encuentra el pcap"})
              exit(1)
 
         #Se busca el href 
