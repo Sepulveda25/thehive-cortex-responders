@@ -14,6 +14,7 @@ Son necesarios los siguientes parametros:
 - Tiempo de inicio
 
 Dichos parametros deben estar en los observables y los nombres deben coincidir con los que se le dio en las configuraciones del responder.
+Estos ultimos se pueden cambiar desde cortex en cualquier momento.
 
 Para mas informacion ver:
 -------------------------
