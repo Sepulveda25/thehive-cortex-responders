@@ -16,6 +16,9 @@ Son necesarios los siguientes parametros:
 Dichos parametros deben estar en los observables y los nombres deben coincidir con los que se le dio en las configuraciones del responder.
 Estos ultimos se pueden cambiar desde cortex en cualquier momento.
 
+### Path para el directorio de los pcap
+El directorio para almacenar los pcap se debe crear con permisos para el usuario cortex, de esta manera el responder lo va a poder utilizar. 
+
 Para mas informacion ver:
 -------------------------
 Documentacion Cortex 
