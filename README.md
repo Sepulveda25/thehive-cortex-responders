@@ -1,4 +1,4 @@
-# Estos son los Responders para Cortex Analyzer 
+# Responders para Cortex Analyzer 
 
 Los responders se encuentran en el directorio:
 **/opt/Cortex-Analyzers/responders**
