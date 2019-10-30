@@ -22,6 +22,18 @@ Estos ultimos se pueden cambiar desde cortex en cualquier momento.
 ### Path para el directorio de los pcap
 El directorio para almacenar los pcap se debe crear con permisos para el usuario cortex, de esta manera el responder lo va a poder utilizar. 
 
+## Responder excelMails
+Este responder envia un correo electronico a la/las persona/s responsables de la red a la cual pertenece la IP de destino del ataque en cuestion.
+El correo contiene la informacion de: Ip origen/destino, puerto origen/destino y tiempo de inicio del ataque.
+Son necesarios los siguientes parametros:
+
+- mail_from : Mail desde el cual se va a enviar la alerta.
+- smtp_host: Nombre del servidor smtp que se utilizara para enviar los correos. Por defecto se utiliza el servidor SMTP de Prosecretaria de Informatica: medusa.psi.unc.edu.ar
+- smtp_port: Puerto que utiliza el servidor SMTP. Por defecto utiliza el 25.
+
+Esta informacion se puede modificar desde Cortex en cualquier momento.
+
+
 Para mas informacion ver:
 -------------------------
 Documentacion Cortex 
