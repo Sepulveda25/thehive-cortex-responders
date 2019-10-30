@@ -16,7 +16,7 @@ Son necesarios los siguientes parametros:
 - Puerto origen
 - Tiempo de inicio
 
-Dichos parametros deben estar en los observables y los nombres deben coincidir con los que se le dio en las configuraciones del responder.
+Dichos parametros deben estar en los observables y `los nombres deben coincidir con los que se le dio en las configuraciones del responder`.
 Estos ultimos se pueden cambiar desde cortex en cualquier momento.
 
 ### Path para el directorio de los pcap
