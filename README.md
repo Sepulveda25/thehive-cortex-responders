@@ -21,10 +21,16 @@ Estos ultimos se pueden cambiar desde cortex en cualquier momento.
 
 Por ejemplo:
 
-Se crea el directorio
+Se crea el directorio llamado pcaps
 ```bash
 mkdir /home/thehive/pcaps
 ```
+
+Luego se cambia el propietario del directorio a `cortex`
+```bash
+sudo chown cortex:cortex /home/thehive/pcaps
+```
+Con el comando anterior se le da permiso al responder para trabajar con el directorio creado
 
 ### Path para el directorio de los pcap
 El directorio para almacenar los pcap se debe crear con permisos para el usuario cortex, de esta manera el responder lo va a poder utilizar. 
